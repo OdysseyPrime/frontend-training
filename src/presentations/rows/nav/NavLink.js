@@ -4,19 +4,17 @@
 import React from 'react'
 import withStyles from '@go-prime/ui/withStyles'
 import classNames from 'classnames'
-import Link from '@go-prime/ui/Link'
+import {Link} from 'react-router-dom'
 
 const styles = ({palette, size, transitions}) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
     flexFlow: 'row nowrap',
-    height: size.spacing * 9,
-    padding: [0, size.spacing * 3],
-    color: palette.textColor,
+    padding: [size.spacing, 0],
+    color: palette.textColorInverse,
     fontSize: size.titleFontSize,
     textDecoration: 'none',
-    borderBottom: `1px solid ${palette.borderColor}`,
     transition: transitions.common,
     '&:hover': {
       color: palette.leadColor

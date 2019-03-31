@@ -10,19 +10,12 @@ import {Link} from 'react-router-dom'
 import Logo from 'presentations/icons/Logo'
 import ArrowRight from 'presentations/icons/ArrowRight'
 
-const styles = ({palette, size,transitions, typography}) => ({
+const styles = ({palette, size, transitions, typography}) => ({
   root: {
-    padding: size.spacing * 2,
-    paddingBottom: 0,
-    marginBottom: size.spacing * 2,
+    padding: size.spacing * 4,
     alignItems: 'center'
   },
-  logo: {
-    fontSize: size.avatarSize,
-    marginRight: size.spacing * 2
-  },
   breadCrumbs: {
-    marginLeft: size.spacing * 2,
     display: 'flex',
     alignItems: 'center'
   },
@@ -85,9 +78,6 @@ class Header extends React.Component {
 
     return (
       <GoPrimeHeader className={className} {...other}>
-        <IconButton className={classes.logo}>
-          <Logo fontSize="inherit"/>
-        </IconButton>
         <div className={classes.breadCrumbs}>
           {breadCrumbs.map(this.createBreadCrumbs)}
         </div>

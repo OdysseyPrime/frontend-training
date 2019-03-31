@@ -8,44 +8,50 @@ import IconButton from '@go-prime/ui/IconButton'
 import LeftNavPane from 'containers/LeftNavPane'
 //Icons
 import Logo from 'presentations/icons/Logo'
+import LogoTextIcon from 'presentations/icons/LogoTextIcon'
 
 const styles = ({size, zIndex, palette, typography}) => ({
   root: {
-    position: 'fixed',
-    width: 'auto',
-    height: '100%',
-    left: 0,
-    top: 0,
+    width: 400,
+    height: '100vh',
     display: 'flex',
-    zIndex: zIndex.drawer + 1
-  },
-  leftNav: {
-    width: 87,
-    height: '100%',
-    padding: size.spacing * 2,
-    display: 'flex',
-    flexFlow: 'row wrap',
-    justifyContent: 'center',
     alignItems: 'flex-start',
-    alignContent: 'flex-start',
     backgroundColor: palette.navBgColor,
+    flexFlow: 'column nowrap',
+    justifyContent: 'flex-start',
+    alignContent: 'flex-start',
     color: palette.textColorInverse,
-    zIndex: zIndex.drawer + 1
+  },
+  leftNavHeader: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    flexFlow: 'row nowrap',
+    height: 80,
+    padding: size.spacing * 2,
+    // borderBottom: `1px solid ${palette.borderColor}`
   },
   logo: {
     fontSize: size.avatarSize,
-    marginBottom: size.spacing * 2
+    padding: 0,
+    marginRight: size.spacing * 2
+  },
+  logoText: {
+    fontSize: size.spacing * 5,
+    width: 'unset'
   },
   icon: {
     fontSize: size.headingFontSize,
     color: palette.textColorInverse,
-    marginBottom: size.spacing * 2,
     opacity: 0.7,
     '&$iconActive, &:hover': {
       opacity: 1
     }
   },
-  iconActive: {}
+  iconActive: {},
+  leftNavRoot:{
+    height: `calc(100% - 80px)`
+  }
 })
 
 class LeftNav extends React.Component {
@@ -85,16 +91,17 @@ class LeftNav extends React.Component {
 
     return (
       <div className={className}>
-        <div className={classes.leftNav}>
+        <div className={classes.leftNavHeader}>
           <IconButton
             color="inherit"
             className={classes.logo}
             onClick={event => this.onNavClick('', event)}>
             <Logo fontSize="inherit"/>
           </IconButton>
+          <LogoTextIcon className={classes.logoText}/>
         </div>
         {/*Left Nav Pane*/}
-        <LeftNavPane open={!!active} active={active} onClose={this.onClose}/>
+        <LeftNavPane className={classes.leftNavRoot} open={true} active={active} onClose={this.onClose}/>
       </div>
     )
   }

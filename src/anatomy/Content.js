@@ -7,7 +7,14 @@ import withStyles from '@go-prime/ui/withStyles'
 import Page from '@go-prime/ui/Page'
 import Header from 'anatomy/Header'
 import LeftNav from 'anatomy/LeftNav'
+
 const styles = ({palette, size, typography}) => ({
+  appWrapper: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    overflow: 'hidden'
+  },
   root: {
     display: 'flex',
     flexFlow: 'column nowrap',
@@ -18,7 +25,7 @@ const styles = ({palette, size, typography}) => ({
     width: '100%',
     flex: 1,
     overflowY: 'auto',
-    padding: [0, 100 + size.spacing / 2, size.spacing * 4, 100 + size.spacing / 2]
+    padding: [size.spacing * 2, size.spacing * 4]
   }
 })
 
@@ -27,8 +34,6 @@ class Content extends React.Component {
   static get defaultProps() {
     return {
       showHeader: true,
-      showLeftNav: true,
-      showRightNav: true,
       title: ''
     }
   }
@@ -37,13 +42,15 @@ class Content extends React.Component {
     const {classes, className: classNameProp, children, title, showHeader, showLeftNav, showRightNav, other} = this.props
     const className = classNames(classes.root, classNameProp)
     return (
-      <Page className={className} {...other}>
-        {showHeader && <Header title={title}/>}
-        {showLeftNav && <LeftNav/>}
-        <div className={classes.content}>
-          {children}
-        </div>
-      </Page>
+      <div className={classes.appWrapper}>
+       <LeftNav open={true}/>
+        <Page className={className} {...other}>
+          {showHeader && <Header title={title}/>}
+          <div className={classes.content}>
+            {children}
+          </div>
+        </Page>
+      </div>
     )
   }
 }
