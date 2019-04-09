@@ -15,6 +15,8 @@ class Home extends React.Component {
             <Content>
                 Frontend Development
                 Training Program
+
+
             </Content>
         )
     }

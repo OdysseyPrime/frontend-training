@@ -50,13 +50,14 @@ class Collapsible extends React.Component {
   }
 
   onCollapse = event => {
-    const {onCollapse} = this.props
-    console.log('this is cool')
     event.stopPropagation()
     event.preventDefault()
+
     this.setState(state => ({
       open: !state.open
     }))
+    const {onCollapse} = this.props
+    
     if (onCollapse) {
       onCollapse(event)
     }
@@ -69,7 +70,6 @@ class Collapsible extends React.Component {
       classes.root,
       classNameProp
     )
-    console.log(open, title)
     return (
       <div className={className}>
         {title && <div className={classes.title}>
