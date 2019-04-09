@@ -6,22 +6,25 @@ import 'assets/app.css'
 import ThemeProvider from '@go-prime/ui/ThemeProvider'
 import {Route, Router, Switch} from 'react-router'
 import createBrowserHistory from 'history/createBrowserHistory'
-
+import Theme from 'utils/Theme'
 const history = createBrowserHistory()
-const Home = lazy(() => import('pages/Home'))
+const Lecture = lazy(() => import('pages/Lecture'))
 
 const App = ({children}) => {
-    return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <Router history={history}>
-                <Switch>
-                    <ThemeProvider>
-                        <Route path="/" exact component={Home}/>
-                    </ThemeProvider>
-                </Switch>
-            </Router>
-        </Suspense>
-    )
+  let theme = Theme.getTheme()
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Router history={history}>
+        <Switch>
+          <ThemeProvider theme={theme}>
+            <Route path="/" exact component={Lecture}/>
+            <Route path="/lecture/:id/" exact component={Lecture}/>
+            <Route path="/lecture/:id/:section" exact component={Lecture}/>
+          </ThemeProvider>
+        </Switch>
+      </Router>
+    </Suspense>
+  )
 }
 
 export default App

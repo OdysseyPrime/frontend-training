@@ -46,7 +46,7 @@ const styles = ({palette, size, transitions}) => ({
 class Collapsible extends React.Component {
 
   state = {
-    open: true
+    open: false
   }
 
   onCollapse = event => {

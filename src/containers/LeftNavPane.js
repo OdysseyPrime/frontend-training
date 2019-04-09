@@ -7,111 +7,7 @@ import withStyles from '@go-prime/ui/withStyles'
 import NavRowWrapper from 'presentations/rows/NavRowWrapper'
 import NavLink from 'presentations/rows/nav/NavLink'
 import uuid from 'uuid'
-
-const routes = [
-  {
-    display: 'Frontend DevelopmentTraining Program',
-    id: uuid.v1()
-  },
-  {
-    display: 'Lecture 1',
-    id: uuid.v1(),
-    children: [
-      {
-        id: uuid.v1(),
-        display: 'Introduction',
-        children: [
-          {
-            id: uuid.v1(),
-            display: 'Contact'
-          }
-        ]
-      },
-      {
-        id: uuid.v1(),
-        display: 'Getting Started',
-        children: [
-          {
-            id: uuid.v1(),
-            display: 'GitLab'
-          },
-          {
-            id: uuid.v1(),
-            display: 'Source Tree'
-          },
-          {
-            id: uuid.v1(),
-            display: 'VS Code'
-          },
-          {
-            id: uuid.v1(),
-            display: 'MongoDB'
-          },
-          {
-            id: uuid.v1(),
-            display: 'NPM'
-          },
-        ]
-      },
-      {
-        id: uuid.v1(),
-        display: 'Project Setup',
-        children: [
-          {
-            id: uuid.v1(),
-            display: 'Running the Application'
-          }
-        ]
-      },
-      {
-        id: uuid.v1(),
-        display: 'Agile Methodology Introduction',
-        children: [
-          {
-            id: uuid.v1(),
-            display: 'Scrum '
-          }
-        ]
-      },
-      {
-        id: uuid.v1(),
-        display: 'Way of Working',
-        children: [
-          {
-            id: uuid.v1(),
-            display: 'Exercise 1'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    display: 'Lecture 2',
-    id: uuid.v1(),
-    children: [
-      {
-        id: uuid.v1(),
-        display: 'JavaScript'
-      },
-      {
-        id: uuid.v1(),
-        display: 'ReactJS'
-      },
-      {
-        id: uuid.v1(),
-        display: 'Project Structure'
-      }
-    ]
-  },
-  {
-    display: 'Glossary',
-    id: uuid.v1()
-  },
-  {
-    display: 'Resources',
-    id: uuid.v1()
-  }
-]
+import routes from 'Routes'
 
 const styles = ({size, palette, typography}) => ({
   root: {
@@ -130,9 +26,12 @@ class LeftNav extends React.Component {
 
   static get defaultProps() {
     return {
-      active: '',
       open: false
     }
+  }
+
+  state = {
+    active: ''
   }
 
   onClose = event => {
@@ -140,8 +39,24 @@ class LeftNav extends React.Component {
     if (onClose) onClose(event)
   }
 
-  renderPanes = (route) => {
-    return <NavRowWrapper key={route.id} item={route}/>
+  onCollapse = (event, item) => {
+    const {active} = this.state
+    console.log(item)
+    if (active === item.id) {
+      this.setState({active: ''})
+      return
+    }
+    this.setState({
+      active: item.id
+    })
+  }
+
+  renderPanes = (route, index) => {
+    return <NavRowWrapper
+      defaultOpen={defaultOpen}
+      key={route.id}
+      onCollapse={this.onCollapse}
+      item={route}/>
   }
 
   render() {

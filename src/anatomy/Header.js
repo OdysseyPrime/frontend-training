@@ -9,6 +9,7 @@ import IconButton from '@go-prime/ui/IconButton'
 import {Link} from 'react-router-dom'
 import Logo from 'presentations/icons/Logo'
 import ArrowRight from 'presentations/icons/ArrowRight'
+import {PAGES} from "../Constants";
 
 const styles = ({palette, size, transitions, typography}) => ({
   root: {
@@ -45,41 +46,27 @@ class Header extends React.Component {
   }
 
   createBreadCrumbs = (link, index) => {
-    const {classes} = this.props
-    const to = {
-      pathname: link.path,
-      state: {
-        display: link.display
-      }
+    const {classes, breadcrumbs} = this.props
+    let page = breadcrumbs[0]
+    let last = index === breadcrumbs.length - 1
+    let url = link.id === PAGES.HOME ? '/' : `/lecture/${page.id}/`
+    if (index !== 0) {
+      url += link.id
     }
     return <Fragment key={link.id + index}>
       {index !== 0 && <ArrowRight className={classes.icon}/>}
-      <Link className={classes.link} to={to}>{link.display}</Link>
+      <Link className={classNames(classes.link, last && classes.activeLink)} to={url}>{link.display}</Link>
     </Fragment>
   }
 
   render() {
-    const {classes, className: classNameProp, children, title, other} = this.props
+    const {classes, className: classNameProp, children, breadcrumbs, title, other} = this.props
     const className = classNames(classes.root, classNameProp)
-    const breadCrumbs = [
-      {
-        id: 'home',
-        path: '/',
-        display: 'Frontend Development'
-      }
-    ]
-    title && breadCrumbs.push(
-      {
-        id: title,
-        path: `/components/${title.toLowerCase()}`,
-        display: title
-      }
-    )
 
     return (
       <GoPrimeHeader className={className} {...other}>
         <div className={classes.breadCrumbs}>
-          {breadCrumbs.map(this.createBreadCrumbs)}
+          {breadcrumbs.map(this.createBreadCrumbs)}
         </div>
       </GoPrimeHeader>
     )

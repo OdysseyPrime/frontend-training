@@ -10,6 +10,7 @@ import Collapsible from 'presentations/Collapsible'
 import IconButton from '@go-prime/ui/IconButton'
 import ArrowDown from 'presentations/icons/ArrowDropDown'
 import {darken, lighten, rgba} from 'polished'
+import { PAGES } from "Constants"
 
 const styles = ({palette, size, transitions}) => ({
   root: {
@@ -18,19 +19,26 @@ const styles = ({palette, size, transitions}) => ({
     alignItems: 'flex-start',
     alignContent: 'flex-start',
     flexFlow: 'column nowrap',
-    minHeight: 50,
-  },
-  navLinkRoot: {
-    width: '100%',
-    padding: size.spacing * 2,
-    backgroundColor: darken(0.02, palette.navBgColor),
+    height: 'auto',
     borderTop: `1px solid ${rgba(palette.common.white, 0.1)}`,
     '&:last-child': {
-      borderBottom: `1px solid ${rgba(palette.common.white, 0.1)}`,
-      '& $content':{
-        borderTop: 'none'
-      }
+      borderBottom: `1px solid ${rgba(palette.common.white, 0.1)}`
     }
+  },
+  header: {
+    display: 'flex',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexFlow: 'row nowrap',
+    height: 60
+  },
+  navLinkRoot: {
+    flex: 1,
+    padding: size.spacing * 2,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   content: {
     display: 'flex',
@@ -46,8 +54,20 @@ const styles = ({palette, size, transitions}) => ({
     boxShadow: `inset 0px 0px 10px ${rgba(palette.common.black, 0.4)}`,
     borderTop: `1px solid ${rgba(palette.common.white, 0.1)}`,
   },
-  icon: {},
-  iconExpanded: {},
+  icon: {
+    transition: transitions.common,
+    marginRight: size.spacing * 2,
+    '& > *': {
+      transition: transitions.common,
+      transform: `rotate(-90deg)`,
+      fontSize: size.spacing * 3
+    }
+  },
+  iconExpanded: {
+    '& > *': {
+      transform: `rotate(0)`
+    }
+  },
   collapsibleRoot: {
     width: 'auto',
     marginLeft: size.spacing * 2
@@ -57,39 +77,72 @@ const styles = ({palette, size, transitions}) => ({
   },
   hide: {
     opacity: 0
+  },
+  subLink: {
+    fontSize: size.defaultFontSize
   }
 })
 
 class NavRowWrapper extends React.Component {
 
-  processChildren = (item, index) => {
-    const {classes} = this.props
-    let children = item.children || []
-    let hideIcon = children.length <= 0
+  static get defaultProps() {
+    return {
+      open: false,
+      defaultOpen: false
+    }
+  }
+
+  processChildren = (child, index) => {
+    const {classes, item} = this.props
+    const children = child.children || []
+    const hideIcon = children.length <= 0
+    const url = `/lecture/${item.id}/${child.id}`
+    const title = <NavLink className={classes.subLink} activeClass={classes.activeClassName} to={url}>{child.display}</NavLink>
     return (
       <Collapsible
-        key={item.id}
+        key={child.id}
         classes={{
           root: classes.collapsibleRoot,
           icon: hideIcon && classes.hide,
           content: classes.collapsibleContent
         }}
-        title={item.display}>
+        title={title}>
         {children && children.length > 0 && children.map(this.processChildren)}
       </Collapsible>
     )
   }
 
+  onClick = event => {
+    const {onClick} = this.props
+    if (onClick) onClick(event)
+  }
+
+  onCollapse = event => {
+    const {onCollapse, item} = this.props
+    event.preventDefault()
+    event.stopPropagation()
+    if (onCollapse) onCollapse(event, item)
+  }
+
   render() {
-    const {classes, className: classNameProp, item, item: {children = []}, ...other} = this.props
+    const {classes, className: classNameProp, item, item: {children = []}, open, defaultOpen, ...other} = this.props
     const className = classNames(
       classes.root,
       classNameProp
     )
+    const url = item.id === PAGES.HOME ? '/' : `/lecture/${item.id}/`
     return (
       <div className={className}>
-        <NavLink className={classes.navLinkRoot}>{item.display}</NavLink>
-        {children && children.length > 0 && <div className={classes.content}>
+        <div className={classes.header}>
+          <NavLink className={classes.navLinkRoot} to={url}
+                   onClick={this.onClick}>{item.display}</NavLink>
+          {children && children.length > 0 &&
+          <IconButton pressed={open} className={classNames(classes.icon, open && classes.iconExpanded)}
+                      onClick={this.onCollapse}>
+            <ArrowDown/>
+          </IconButton>}
+        </div>
+        {children && children.length > 0 && (defaultOpen || open) && <div className={classes.content}>
           {children.map(this.processChildren)}
         </div>}
       </div>

@@ -12,7 +12,10 @@ import LogoTextIcon from 'presentations/icons/LogoTextIcon'
 
 const styles = ({size, zIndex, palette, typography}) => ({
   root: {
-    width: 400,
+    maxWidth: 350,
+    width: '100%',
+    overflowY: 'auto',
+    overflowX: 'hidden',
     height: '100vh',
     display: 'flex',
     alignItems: 'flex-start',
