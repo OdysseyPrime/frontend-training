@@ -18,19 +18,25 @@ const styles = ({palette, size, transitions}) => ({
     transition: transitions.common,
     '&:hover': {
       color: palette.leadColor
-    }
+    },
+  },
+  active:{
+    color: palette.leadColor
   }
 })
 
 const NavLink = props => {
-  const {classes, children, className: classNameProp, to, other} = props
+  const {classes, children, className: classNameProp, ...other} = props
+  let active = props.to === window.location.pathname
   const className = classNames(
     classes.root,
+    active && classes.active,
     classNameProp
   )
 
+
   return (
-    <Link className={className} {...other} to={to}>
+    <Link className={className} {...other}>
       {children}
     </Link>
   )

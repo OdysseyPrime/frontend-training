@@ -46,7 +46,7 @@ const styles = ({palette, size, transitions}) => ({
 class Collapsible extends React.Component {
 
   state = {
-    open: true
+    open: false
   }
 
   onCollapse = event => {
@@ -69,7 +69,6 @@ class Collapsible extends React.Component {
       classes.root,
       classNameProp
     )
-    console.log(open, title)
     return (
       <div className={className}>
         {title && <div className={classes.title}>
