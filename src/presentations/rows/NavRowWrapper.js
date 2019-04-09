@@ -98,9 +98,13 @@ class NavRowWrapper extends React.Component {
     const hideIcon = children.length <= 0
     const url = `/lecture/${item.id}/${child.id}`
     const title = <NavLink className={classes.subLink} activeClass={classes.activeClassName} to={url}>{child.display}</NavLink>
+
+    const { breadcrumbs } = this.props
+
     return (
       <Collapsible
         key={child.id}
+        open={!!breadcrumbs.find(which => which.id === child.id)}
         classes={{
           root: classes.collapsibleRoot,
           icon: hideIcon && classes.hide,

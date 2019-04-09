@@ -83,15 +83,12 @@ class LeftNav extends React.Component {
   }
 
   render() {
-    const {className: classNameProp, classes, children} = this.props
+    const {className: classNameProp, classes, breadcrumbs, children} = this.props
     const {active} = this.state
     const className = classNames(
       classes.root,
       classNameProp
     )
-
-    const isActive = which => which === active
-
     return (
       <div className={className}>
         <div className={classes.leftNavHeader}>
@@ -104,7 +101,7 @@ class LeftNav extends React.Component {
           <LogoTextIcon className={classes.logoText}/>
         </div>
         {/*Left Nav Pane*/}
-        <LeftNavPane className={classes.leftNavRoot} open={true} active={active} onClose={this.onClose}/>
+        <LeftNavPane className={classes.leftNavRoot} breadcrumbs={breadcrumbs} open={true} active={active} onClose={this.onClose}/>
       </div>
     )
   }

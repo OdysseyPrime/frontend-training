@@ -33,6 +33,7 @@ const NavLink = props => {
     active && classes.active,
     classNameProp
   )
+  console.log('active', active, props.to, window.location.pathname)
 
 
   return (

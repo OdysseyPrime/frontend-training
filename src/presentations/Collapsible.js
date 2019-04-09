@@ -46,7 +46,15 @@ const styles = ({palette, size, transitions}) => ({
 class Collapsible extends React.Component {
 
   state = {
-    open: false
+    open: this.props.open
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.open !== this.props.open) {
+      this.setState({
+        open: nextProps.open
+      })
+    }
   }
 
   onCollapse = event => {

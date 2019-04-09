@@ -88,7 +88,7 @@ class Content extends React.Component {
     const className = classNames(classes.root, classNameProp)
     return (
       <Page className={className} {...other}>
-        <LeftNav open={true}/>
+        <LeftNav open={true} breadcrumbs={breadcrumbs}/>
         <div className={classes.appWrapper}>
           {showHeader && <Header breadcrumbs={breadcrumbs}/>}
           <div id={'content'} className={classes.content}>
